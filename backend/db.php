@@ -1,8 +1,8 @@
 <?php
     define('host', 'localhost');
-    define('db_username', 'abdullajonov');
-    define('db_password', '0880');
-    define('db_name','RegisartionFormDB');
+    define('db_username', ''); // your database username
+    define('db_password', ''); // your database password
+    define('db_name',''); // your database name
 
     $conn = mysqli_connect(host,db_username,db_password,db_name);
 
