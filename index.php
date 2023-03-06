@@ -2,9 +2,9 @@
     require "./backend/db.php";
 
     // login user
-    if(isset($_POST['password']) && isset($_POST['email'])){
-        $email = real_string($_POST['email']);
-        $password = real_string($_POST['password']);
+    if(isset($_POST['login_password']) && isset($_POST['login_email'])){
+        $email = real_string($_POST['login_email']);
+        $password = real_string($_POST['login_password']);
 
         // make password to md5
         $password = md5($password);
@@ -18,6 +18,26 @@
         } else {
             echo "<script>alert('Accound not found')</script>";
         }
+    }
+
+    // registration
+    if(isset($_POST['password']) && isset($_POST['email']) && isset($_POST['name'])){
+        $email = real_string($_POST['email']);
+        $password = real_string($_POST['password']);
+        $name = real_string($_POST['name']);
+
+        // make password to md5
+        $password = md5($password);
+
+       // write user to database
+       $ins = "INSERT INTO users(name,email,pass) VALUES('{$name}','{$email}','{$password}')";
+       $query = mysqli_query($conn, $ins);
+       if($query){
+        // now user successfully registrated you can redirect user
+            echo "<script>alert('User registrated')</script>";
+       } else {
+            echo "<script>alert('Something wrong went please try after a minute')</script>";    
+       }
     }
 ?>
 
@@ -49,22 +69,13 @@
 
                     <form action="./index.php" method="POST">
                         <div class="input-field">
-                            <input type="text" name="email" placeholder="Enter your email" required>
+                            <input type="email" name="login_email" placeholder="Enter your email" required>
                             <i class="uil uil-envelope icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" name="password" class="password" placeholder="Enter your password" required>
+                            <input type="password" name="login_password" class="password" placeholder="Enter your password" required>
                             <i class="uil uil-lock icon"></i>
                             <i class="uil uil-eye-slash showHidePw"></i>
-                        </div>
-
-                        <div class="checkbox-text">
-                            <div class="checkbox-content">
-                                <input type="checkbox" id="logCheck">
-                                <label for="logCheck" class="text">Remember me</label>
-                            </div>
-
-                            <a href="#" class="text">Forgot password?</a>
                         </div>
 
                         <div class="input-field button">
@@ -83,21 +94,21 @@
                 <div class="form signup">
                     <span class="title">Registration</span>
 
-                    <form action="#">
+                    <form action="./index.php" method="post">
                         <div class="input-field">
-                            <input type="text" placeholder="Enter your name" required>
+                            <input type="text" name="name" placeholder="Enter your name" required>
                             <i class="uil uil-user"></i>
                         </div>
                         <div class="input-field">
-                            <input type="text" placeholder="Enter your email" required>
+                            <input type="email" name="email" placeholder="Enter your email" required>
                             <i class="uil uil-envelope icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Create a password" required>
+                            <input type="password" name="password" class="password" placeholder="Create a password" required>
                             <i class="uil uil-lock icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Confirm a password" required>
+                            <input type="password" name="confirm_password" class="password" placeholder="Confirm a password" required>
                             <i class="uil uil-lock icon"></i>
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
@@ -110,7 +121,7 @@
                         </div>
 
                         <div class="input-field button">
-                            <input type="button" value="Signup">
+                            <input type="submit" value="Signup">
                         </div>
                     </form>
 
